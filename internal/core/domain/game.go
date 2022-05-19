@@ -1,20 +1,22 @@
 package domain
 
+import "cloud.google.com/go/bigquery"
+
 type Game struct {
-	Name            string
-	Platform        string
-	Year_of_release int64
-	Genre           string
-	Publisher       string
-	Na_sales        float64
-	Eu_sales        float64
-	Jp_sales        float64
-	Other_sales     float64
-	Global_sales    float64
-	Critic_score    int64
-	Critic_count    int64
-	User_score      string
-	User_count      int64
-	Developer       string
-	Rating          string
+	Name            bigquery.NullString
+	Platform        bigquery.NullString
+	Year_of_release bigquery.NullInt64
+	Genre           bigquery.NullString
+	Publisher       bigquery.NullString
+	Na_sales        bigquery.NullFloat64
+	Eu_sales        bigquery.NullFloat64
+	Jp_sales        bigquery.NullFloat64
+	Other_sales     bigquery.NullFloat64
+	Global_sales    bigquery.NullFloat64
+	Critic_score    bigquery.NullInt64
+	Critic_count    bigquery.NullInt64
+	User_score      bigquery.NullString
+	User_count      bigquery.NullInt64
+	Developer       bigquery.NullString
+	Rating          bigquery.NullString
 }
