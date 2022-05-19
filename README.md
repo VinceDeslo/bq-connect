@@ -1,20 +1,17 @@
 # BQ Connect
 
-A small connector service for querying a BigQuery dataset of plants 
+A small connector service for querying a BigQuery dataset 
 
 ### Infrastructure
 [Infrastructure of the project](https://github.com/VinceDeslo/bq-connect-infra)
 
 ### Roadmap
 - [x] Hexagonal architecture
-- [x] HTTP communications handler
-- [ ] gRPC communications handler
+- [x] HTTP API
+- [x] Dockerfile and Docker Compose up and running
+- [ ] gRPC API
 - [ ] Redis as a caching layer
-- [ ] Docker config and image deployed to DockerHub
 
 ### Purpose
 This connector acts as a microservice to fetch and parse data from a BigQuery data lake.
 The data lake contains a dataset of video game sales accross the years.
-
-
-
