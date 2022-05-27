@@ -2,8 +2,7 @@
 
 A small connector service for querying a BigQuery dataset 
 
-# State
-
+### State
 :construction: Project currently a work in progress
 
 ### Infrastructure
