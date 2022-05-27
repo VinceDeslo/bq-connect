@@ -32,3 +32,11 @@ func (adapter *HTTPAdapter) GetAdventure(ctx *gin.Context) {
 	}
 	ctx.JSON(200, games)
 }
+
+func CorsMiddleware() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.Writer.Header().Set("Content-Type", "application/json")
+		ctx.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		ctx.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+	}
+}

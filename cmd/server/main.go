@@ -23,6 +23,7 @@ func main() {
 	gamesHandler := driver.NewHTTPAdapter(gamesService)
 
 	router := gin.New()
+	router.Use(driver.CorsMiddleware())
 	router.GET("/games", gamesHandler.GetAll)
 	router.GET("/games/adventure", gamesHandler.GetAdventure)
 	router.Run(":8080")
