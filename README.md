@@ -15,8 +15,9 @@ A small connector service for querying a BigQuery dataset.
 - [x] Hexagonal architecture
 - [x] HTTP API
 - [x] Dockerfile and Docker Compose up and running
+- [ ] Github actions to push container to GCP Artifact Registry
 - [ ] gRPC API
-- [ ] Redis for event streaming
+- [ ] Event streaming to a GCP Pub/Sub topic
 
 ### Purpose
 This connector acts as a microservice to fetch and parse data from a BigQuery data lake.
