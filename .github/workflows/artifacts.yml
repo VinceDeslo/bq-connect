@@ -7,15 +7,15 @@ jobs:
     name: Build and push image to GCP
     runs-on: ubuntu-latest
     env:
-      image_name: bq-connector
-      project_id: bqconnect-349116
+      IMAGE_NAME: bq-connector
+      PROJECT_ID: bqconnect-349116
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v2
 
       - name: Get current version tag
         id: get_tag
-        run: echo "::setoutput name=release_tag::${GITHUB_REF#refs/tags/}"
+        run: echo "::setoutput name=tag::${GITHUB_REF#refs/tags/}"
 
       - name: Authenticate GCP
         uses: google-github-actions/auth@v0
@@ -35,10 +35,10 @@ jobs:
 
       - name: Push image to artifacts registry
         env:
-          tag: ${{ steps.get_tag.outputs.release_tag }}
+          TAG: ${{ steps.get_tag.outputs.tag }}
         run: |-
-          echo 'Pushing tagged release: ${{ env.tag }}'
-          docker tag $image_name:latest northamerica-northeast1-docker.pkg.dev/$project_id/bq-images/$image_name:latest
-          docker tag $image_name:latest northamerica-northeast1-docker.pkg.dev/$project_id/bq-images/$image_name:${{ env.tag }}
-          docker push northamerica-northeast1-docker.pkg.dev/$project_id/bq-images/$image_name:latest
-          docker push northamerica-northeast1-docker.pkg.dev/$project_id/bq-images/$image_name:${{ env.tag }}
+          echo '${{ toJSON(steps) }}'
+          docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$TAG
+          docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
+          docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$TAG
