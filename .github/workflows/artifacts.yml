@@ -7,8 +7,8 @@ jobs:
     name: Build and push image to GCP
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: bq-connector
-      PROJECT_ID: bqconnect-349116
+      image_name: bq-connector
+      project_id: bqconnect-349116
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v2
@@ -31,14 +31,14 @@ jobs:
           gcloud auth configure-docker northamerica-northeast1-docker.pkg.dev --quiet
 
       - name: Build Docker image
-        run: docker build -t $IMAGE_NAME:latest .
+        run: docker build -t $image_name:latest .
 
       - name: Push image to artifacts registry
         env:
-          GIT_TAG: ${{ steps.get_tag.outputs.release_tag }}
+          tag: ${{ steps.get_tag.outputs.release_tag }}
         run: |-
-          echo 'Pushing tagged release: $GIT_TAG'
-          docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
-          docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$GIT_TAG
-          docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
-          docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$GIT_TAG
+          echo 'Pushing tagged release: ${{ env.tag }}'
+          docker tag $image_name:latest northamerica-northeast1-docker.pkg.dev/$project_id/bq-images/$image_name:latest
+          docker tag $image_name:latest northamerica-northeast1-docker.pkg.dev/$project_id/bq-images/$image_name:${{ env.tag }}
+          docker push northamerica-northeast1-docker.pkg.dev/$project_id/bq-images/$image_name:latest
+          docker push northamerica-northeast1-docker.pkg.dev/$project_id/bq-images/$image_name:${{ env.tag }}
