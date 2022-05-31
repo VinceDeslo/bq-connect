@@ -1,0 +1,41 @@
+name: Build and push container to Google Artifacts Registry
+on:
+  release:
+    types: [created]
+jobs:
+  push-to-artifacts:
+    name: Build and push image to GCP
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: bq-connector
+      PROJECT_ID: bqconnect-349116
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v2
+
+      - name: Get current version tag
+        id: get_tag
+        run: echo ::setoutput name=RELEASE_TAG::${GITHUB_REF#refs/tags/}
+
+      - name: Authenticate GCP
+        uses: google-github-actions/auth@v0
+        with: 
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Set up GCP SDK
+        uses: google-github-actions/setup-gcloud@v0
+    
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME:latest .
+
+      - name: Configure Docker client
+        run: gcloud auth configure docker northamerica-northeast1-docker.pkg.dev --quiet
+
+      - name: Push image to artifacts registry
+        env:
+          GIT_TAG: ${{ steps.get_tag.outputs.RELEASE_TAG }}
+        run: |-
+          docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$GIT_TAG
+          docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
+          docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$GIT_TAG
