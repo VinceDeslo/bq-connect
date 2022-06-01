@@ -1,14 +1,16 @@
-name: Build and push container to Google Artifacts Registry
+name: Build and push container to Google Artefacts Registry
 on:
   release:
     types: [created]
 jobs:
-  push-to-artifacts:
+  push-to-artefacts:
     name: Build and push image to GCP
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: bq-connector
       PROJECT_ID: bqconnect-349116
+    outputs:
+      tag: ${{ steps.get_tag.outputs.tag }}
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v2
@@ -33,11 +35,11 @@ jobs:
       - name: Build Docker image
         run: docker build -t $IMAGE_NAME:latest .
 
-      - name: Push image to artifacts registry
+      - name: Push image to artefacts registry
         env:
-          TAG: ${{ steps.get_tag.outputs.tag }}
+          TAG: ${{ needs.push-to-artefacts.outputs.tag }}
         run: |-
-          echo '${{ toJSON(steps) }}'
+          echo 'Version: $TAG'
           docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
           docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$TAG
           docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
