@@ -39,8 +39,8 @@ jobs:
         env:
           TAG: ${{ steps.get_tag.outputs.tag }}
         run: |-
-          echo Version:$TAG
+          # echo Version:$TAG
           docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
-          docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$TAG
+          # docker tag $IMAGE_NAME:latest northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$TAG
           docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:latest
-          docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$TAG
+          # docker push northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/bq-images/$IMAGE_NAME:$TAG
