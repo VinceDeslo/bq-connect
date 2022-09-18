@@ -2,9 +2,6 @@
 
 A small connector service for querying a BigQuery dataset. 
 
-### State
-:construction: Project currently a work in progress
-
 ### Related Infrastructure
 [bq-connect-infra](https://github.com/VinceDeslo/bq-connect-infra)
 
